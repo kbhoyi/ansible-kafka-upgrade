@@ -21,17 +21,17 @@ Below ansible playbook can help get the base setup done quickly
 https://github.com/sanjeevmaheve/ansible-kafka-cluster
 ```
 
-/etc/hosts file on all the kafka nodes should be updated with the peer node information.Replace <<username-virtual-machine>> with the username of the machine
+/etc/hosts file on all the kafka nodes should be updated with the peer node information.Replace \<username-virtual-machine\> with the username of the machine
 
 ```
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat /etc/hosts
 127.0.0.1       localhost
-127.0.1.1       <<username-virtual-machine>>
+127.0.1.1       <username-virtual-machine>
 
 # The following lines are desirable for IPv6 capable hosts
-192.168.0.159 <<username-virtual-machine>> kafka-2
-192.168.0.160 <<username-virtual-machine>> kafka-1
-192.168.0.163 <<username-virtual-machine>> kafka-consumer
+192.168.0.159 <username-virtual-machine> kafka-2
+192.168.0.160 <username-virtual-machine> kafka-1
+192.168.0.163 <username-virtual-machine> kafka-consumer
 
 ```
 
