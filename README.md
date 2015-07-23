@@ -15,7 +15,7 @@ $ sudo pip install ansible
 $ git clone https://github.com/kbhoyi/ansible-kafka-upgrade
 ```
 
-Have the base setup up and running with 1 zookeeper and 2 kafka nodes. Below ansible playbook can help get it done quickly
+Below ansible playbook can help get the base setup done quickly
 
 ```
 https://github.com/sanjeevmaheve/ansible-kafka-cluster
@@ -35,10 +35,10 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat /etc/hosts
 
 ```
 
-Verify the consumer is recieving all messages published by producer before running the upgrade playbook. Details can be found in "XYZ" Section in the below link.
+Verify the consumer is recieving all messages published by producer before running the upgrade playbook. Details can be found in "Tests to make sure no data loss between producer and consumer during scale up and scale down" Section in the below link.
 
 ```
-TBD:Supriya's link
+https://github.com/SupriyaPrasad/Scaling-Kafka-nodes.git
 ```
 
 ### How Rolling Upgrade Is Done?
@@ -56,8 +56,9 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat upgrade.yml
 ```
 
 Make the following changes in host files:
-  a. Replace <username> below with the user name on the destination machines where the modules would be installed and configured by ansible. 
-  b. The IP addresses have to be replaced with your node ips.
+
+ 1. Replace \<username\> below with the user name on the destination machines where the modules would be installed and configured by ansible. 
+ 2. The IP addresses have to be replaced with your node ips.
 
 ```
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat hosts
@@ -75,7 +76,11 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat hosts
 192.168.0.165 kafka_broker_id=1 kafka_hostname=kafka-1 ansible_ssh_user=<username>
 ```
 
-Please note that the 3rd kafka node(kafka-consumer) is used to run the consumer script provided by kafka for validation and doesn't participate in upgrade
+Please note that the kafka_broker_id=3 is used to run the consumer script and doesn't participate in upgrade
+
+```
+bin/kafka-console-consumer.sh --zookeeper 192.168.0.170:2181 --topic new
+```
 
 The existing kafka version is removed from each host. This is achieved by adding the dependecies.
 
@@ -112,9 +117,9 @@ installed_java_version: "java-7-oracle"
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ ansible-playbook -i hosts upgrade.yml -K
 ```
 
-## Verify Upgrade is Done Successfully? 
+## Verify Upgrade is Successful
 
-Login to the all kafka servers and check if the version is updated
+Login to the all kafka servers and check if the version(kafka_2.10-0.8.2.1) is updated. The kafka jar version should be replaced with the new one and the previous version should be deleted.
 
 ```
 sfuser@sfuser-virtual-machine:/usr/local$ ls k*
@@ -125,8 +130,8 @@ kafka_2.10-0.8.2.1:
 bin  config  libs  LICENSE  logs  NOTICE
 ```
 
-Verify the consumer continues to get all the messages published by producer during and after the upgrade.Details can be found in "XYZ" Section in the below link.
+Verify the consumer continues to get all the messages published by producer during and after the upgrade.Details can be found in "Tests to make sure no data loss between producer and consumer during scale up and scale down" Section in the below link.
 
 ```
-TBD:Supriya's link
+https://github.com/SupriyaPrasad/Scaling-Kafka-nodes
 ```
