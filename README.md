@@ -8,21 +8,20 @@ In this version, its assumed that you have provisioned VMs with Ubuntu OS either
 
 ### Pre-requisite
 
-1. Install Ansible on the development machine/VM. There are number of ways, I followed using Python package.
+Install Ansible on the development machine/VM. There are number of ways, I followed using Python package.
 
 ```
 $ sudo pip install ansible
 $ git clone https://github.com/kbhoyi/ansible-kafka-upgrade
 ```
 
-2. Have the base setup up and running with 1 zookeeper and 2 kafka nodes. Below ansible playbook can help get it done quickly
+Have the base setup up and running with 1 zookeeper and 2 kafka nodes. Below ansible playbook can help get it done quickly
 
 ```
 https://github.com/sanjeevmaheve/ansible-kafka-cluster
 ```
 
-
-3. /etc/hosts file on all the kafka nodes should be updated with the peer node information.Replace <<username-virtual-machine>> with the username of the machine
+/etc/hosts file on all the kafka nodes should be updated with the peer node information.Replace <<username-virtual-machine>> with the username of the machine
 
 ```
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat /etc/hosts
@@ -36,7 +35,7 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat /etc/hosts
 
 ```
 
-4. Verify the consumer is recieving all messages published by producer before running the upgrade playbook. Details can be found in "XYZ" Section in the below link.
+Verify the consumer is recieving all messages published by producer before running the upgrade playbook. Details can be found in "XYZ" Section in the below link.
 
 ```
 TBD:Supriya's link
@@ -44,7 +43,7 @@ TBD:Supriya's link
 
 ### How Rolling Upgrade Is Done?
 
-1. Every node mentioned under [kafka-upgrade-nodes] in the ansible-kafka-upgrade/hosts file is picked one at a time.
+Every node mentioned under [kafka-upgrade-nodes] in the ansible-kafka-upgrade/hosts file is picked one at a time.
 
 ```
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat upgrade.yml 
@@ -78,7 +77,7 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat hosts
 
 Please note that the 3rd kafka node(kafka-consumer) is used to run the consumer script provided by kafka for validation and doesn't participate in upgrade
 
-2. The existing kafka version is removed from each host. This is achieved by adding the dependecies.
+The existing kafka version is removed from each host. This is achieved by adding the dependecies.
 
 ```
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat roles/ansible-kafka-upgrade/meta/main.yml 
@@ -86,7 +85,7 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat roles/ansible-kafka-u
 dependencies: [ansible-kafka-remove]
 ```
 
-3. The upgrade version is mentioned in defaults.
+The upgrade version is mentioned in defaults.
 
 ```
 sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ cat roles/ansible-kafka-upgrade/defaults/main.yml 
@@ -115,8 +114,7 @@ sfuser@sfuser-virtual-machine:~/ansible-kafka-upgrade$ ansible-playbook -i hosts
 
 ## Verify Upgrade is Done Successfully? 
 
-1. Login to the all kafka servers and check if the version is updated
-
+Login to the all kafka servers and check if the version is updated
 
 ```
 sfuser@sfuser-virtual-machine:/usr/local$ ls k*
@@ -127,8 +125,8 @@ kafka_2.10-0.8.2.1:
 bin  config  libs  LICENSE  logs  NOTICE
 ```
 
-2. Verify the consumer continues to get all the messages published by producer during and after the upgrade.Details can be found in "XYZ" Section in the below link.
-3. 
+Verify the consumer continues to get all the messages published by producer during and after the upgrade.Details can be found in "XYZ" Section in the below link.
+
 ```
 TBD:Supriya's link
 ```
